@@ -189,6 +189,9 @@ kfactory = [
 meow = [
   "meow-sim"
 ]
+openlane = [
+  "openlane"  # Note that this requires a special dockerised environment to work.
+]
 ray = [
   "ray[tune,air]",
   "hyperopt"

@@ -115,8 +115,7 @@ For that you can install gdsfactory locally on your computer in `-e` edit mode.
 git clone https://github.com/gdsfactory/gdsfactory.git
 cd gdsfactory
 mamba install gdstk -y
-pip install -e . pre-commit
-pip install -e .[full] # Install most plugins
+pip install -e .[full] pre-commit # Install most plugins
 pre-commit install
 gf install klayout-genericpdk
 ```
