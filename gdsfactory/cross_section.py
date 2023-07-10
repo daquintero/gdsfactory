@@ -15,7 +15,10 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, TypeVar, Union
 
 from pydantic import BaseModel, Field, validate_arguments
 from typing_extensions import Literal
-from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
+from gdsfactory.add_pins import (
+    add_pins_inside1nm,
+    add_pins_siepic_optical,
+)
 from gdsfactory.serialization import clean_dict
 
 nm = 1e-3
@@ -504,7 +507,6 @@ def cross_section(
 radius_nitride = 20
 radius_rib = 20
 
-
 # strip = cross_section
 strip_pins = partial(
     cross_section, add_pins=add_pins_inside1nm, name="strip", add_bbox=None
@@ -764,6 +766,8 @@ def l_with_trenches(
     )
 
 
+add_metal1_pins = partial(add_pins_inside1nm, layer="M1_PIN")
+
 metal1 = partial(
     cross_section,
     layer="M1",
@@ -773,6 +777,7 @@ metal1 = partial(
     radius=None,
     min_length=5,
     gap=5,
+    add_pins=add_metal1_pins,  # Create basic electrical connectivity
 )
 metal2 = partial(
     metal1,

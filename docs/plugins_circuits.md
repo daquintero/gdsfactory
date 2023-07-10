@@ -11,3 +11,7 @@ You can use 3 circuit simulators:
 
 ```{tableofcontents}
 ```
+
+## SPICE & Electrical Codesign Tools
+
+It is often desired to be able to extract the electrical interconnect netlist from a layout component. This extracted netlist could then be transformed to perform SPICE simulations, or even more advanced electronic co-design.
