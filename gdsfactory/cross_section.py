@@ -773,6 +773,7 @@ metal1 = partial(
     radius=None,
     min_length=5,
     gap=5,
+    add_pins=add_pins_inside1nm,
 )
 metal2 = partial(
     metal1,
@@ -801,6 +802,7 @@ metal_slotted = partial(
         Section(width=10, layer="M3", offset=11),
         Section(width=10, layer="M3", offset=-11),
     ],
+    add_pins=add_pins_inside1nm,
 )
 
 

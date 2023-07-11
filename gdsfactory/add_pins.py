@@ -148,14 +148,15 @@ def add_pin_triangle(
 def add_pin_rectangle_inside(
     component: Component,
     port: Port,
+    pin_layer_per_port_layer: bool = True,
     pin_length: float = 0.1,
     layer: LayerSpec = "PORT",
     layer_label: LayerSpec = "TEXT",
-    pin_layer_per_port_layer: bool = True,
 ) -> None:
     """Add square pin towards the inside of the port.
 
-    For compatibility with SPICE, standard LVS and RCX tools such as Cadence, we need to place pins in the PIN purpose layer for each drawing layer. Include the `pin_per_port` flag in order to enable this compatibility.
+    For compatibility with SPICE, standard LVS and RCX tools such as Cadence, we need to place pins in the PIN
+    purpose layer for each drawing layer. Include the `pin_layer_per_port_layer` flag in order to enable this compatibility.
 
     Args:
         component: to add pins.
@@ -197,13 +198,7 @@ def add_pin_rectangle_inside(
     polygon = [p0, p1, ptopin, pbotin]
 
     if pin_layer_per_port_layer:
-        port_layer = p.layer
-        pin_purpose = 10
-        # Creates a PIN purpose for the provided layer
-        pin_layer = list(port_layer)
-        pin_layer[1] = pin_purpose
-        pin_layer = tuple(pin_layer)
-        print(pin_layer)
+        pin_layer = pin_layer_from_port(port=p)
         component.add_polygon(polygon, layer=pin_layer)
 
     else:
@@ -291,6 +286,7 @@ def add_pin_rectangle_double(
 def add_pin_rectangle(
     component: Component,
     port: Port,
+    pin_layer_per_port_layer: bool = True,
     pin_length: float = 0.1,
     layer: LayerSpec = "PORT",
     layer_label: LayerSpec = "TEXT",
@@ -298,12 +294,16 @@ def add_pin_rectangle(
 ) -> None:
     """Add half out pin to a component.
 
+    For compatibility with SPICE, standard LVS and RCX tools such as Cadence, we need to place pins in the PIN
+    purpose layer for each drawing layer. Include the `pin_layer_per_port_layer` flag in order to enable this compatibility.
+
     Args:
         component: to add pin.
         port: Port.
         pin_length: length of the pin marker for the port.
         layer: for the pin marker.
         layer_label: for the label.
+        pin_layer_per_port_layer: Boolean flag to place pins according to LVS, RCX, and SPICE extraction standards.
         port_margin: margin to port edge.
 
     .. code::
@@ -337,7 +337,12 @@ def add_pin_rectangle(
     ptopin = p.center + _rotate(dtopin, rot_mat)
     pbotin = p.center + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
-    component.add_polygon(polygon, layer=layer)
+    if pin_layer_per_port_layer:
+        pin_layer = pin_layer_from_port(p)
+        component.add_polygon(polygon, layer=pin_layer)
+
+    else:
+        component.add_polygon(polygon, layer=layer)
 
     if layer_label:
         component.add_label(
@@ -586,6 +591,29 @@ def add_pins_and_outline(
         add_settings_function(component=component, reference=reference)
     if add_instance_label_function:
         add_instance_label_function(component=component, reference=reference)
+
+
+def pin_layer_from_port(
+    port: Port,
+    pin_purpose: int = 10,
+):
+    """
+    Returns the layer for a pin based on the layer of the port using the provided pin purpose.
+
+    Args:
+        port: Port.
+        pin_purpose: GDS layer purpose for the pin that should come from the PDK provided.
+
+    Returns:
+        pin_layer(tuple): GDS layer for the pin.
+
+    """
+    port_layer = port.layer
+    # Creates a PIN purpose for the provided layer
+    pin_layer = list(port_layer)
+    pin_layer[1] = pin_purpose
+    pin_layer = tuple(pin_layer)
+    return pin_layer
 
 
 if __name__ == "__main__":

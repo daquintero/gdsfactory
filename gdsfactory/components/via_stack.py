@@ -7,6 +7,7 @@ from typing import Optional, Tuple
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory.add_pins import pin_layer_from_port
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via import via1, via2, viac
@@ -21,6 +22,7 @@ def via_stack(
     vias: Optional[Tuple[Optional[ComponentSpec], ...]] = (via1, via2, None),
     layer_port: Optional[LayerSpec] = None,
     correct_size: bool = True,
+    pin_layer_per_port_layer: bool = True,
 ) -> Component:
     """Rectangular via array stack.
 
@@ -33,6 +35,11 @@ def via_stack(
 
     spacing = via.info['spacing']
     enclosure = via.info['enclosure']
+
+    For compatibility with SPICE, standard LVS and RCX tools such as Cadence, we need to place pins in the PIN
+    purpose layer for each drawing layer. Include the `pin_layer_per_port_layer` flag in order to enable this
+    compatibility. In terms of this via, in order to extract connectivity, it is assumed that the PIN layer will be
+    on top of the drawing layer as this means that connectivity can be on multiple directions.
 
     Args:
         size: of the layers.
@@ -73,6 +80,14 @@ def via_stack(
             c.add_ports(ref.ports)
         else:
             ref = c << compass(size=size_m, layer=layer, port_type="electrical")
+
+        if pin_layer_per_port_layer:
+            for enclosure_port_i in c.ports.items():
+                pin_layer = pin_layer_from_port(enclosure_port_i[1])
+                ref = c << compass(size=size_m, layer=pin_layer, port_type="electrical")
+
+        else:
+            pass
 
     vias = vias or []
     for via, offset in zip(vias, layer_offsets):
