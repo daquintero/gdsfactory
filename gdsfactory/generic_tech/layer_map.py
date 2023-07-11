@@ -49,11 +49,14 @@ class GenericLayerMap(BaseModel):
     M2_PIN: Layer = (45, 10)
     M3: Layer = (49, 0)
     M3_PIN: Layer = (49, 10)
-    MTOP: Layer = (49, 0)  # TODO Is this superseded by MT3?
-    MTOP_PIN: Layer = (49, 10)  # TODO Is this superseded by MT3?
-    VIAC: Layer = (40, 0)  # NPP/PPP to MT1
-    VIA1: Layer = (44, 0)  # MT1 to MT2
-    VIA2: Layer = (43, 0)  # MT1 to MT2/MT3
+    MTOP: Layer = (49, 0)  # SUPERSEDED: M3
+    MTOP_PIN: Layer = (49, 10)  # SUPERSEDED: M3
+    VIAC: Layer = (40, 0)
+    VIAC_PIN: Layer = (40, 10)
+    VIA1: Layer = (44, 0)
+    VIA1_PIN: Layer = (44, 10)
+    VIA2: Layer = (43, 0)
+    VIA2_PIN: Layer = (43, 10)
     PADOPEN: Layer = (46, 0)
 
     DICING: Layer = (100, 0)
@@ -62,8 +65,8 @@ class GenericLayerMap(BaseModel):
     DEVREC: Layer = (68, 0)
     FLOORPLAN: Layer = (64, 0)
     TEXT: Layer = (66, 0)
-    PORT: Layer = (1, 10)
-    PORTE: Layer = (1, 11)
+    PORT: Layer = (1, 10)  # SUPERSEDED BY _PIN notation compatible with LVS
+    PORTE: Layer = (1, 11)  # SUPERSEDED BY _PIN notation compatible with LVS
     PORTH: Layer = (70, 0)
     SHOW_PORTS: Layer = (1, 12)
     LABEL: Layer = (201, 0)

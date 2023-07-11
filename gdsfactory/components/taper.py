@@ -79,6 +79,7 @@ def taper(
         orientation=180,
         layer=x.layer,
         cross_section=x1,
+        port_type="electrical",
     )
     if with_two_ports:
         c.add_port(
@@ -88,6 +89,7 @@ def taper(
             orientation=0,
             layer=x.layer,
             cross_section=x2,
+            port_type="electrical",
         )
 
     if with_bbox and length:

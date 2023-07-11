@@ -16,16 +16,23 @@ def test_extract_electrical_netlist_straight_heater_metal():
     composed, then it is possible to have a connectivity that actually represents electrical elements in our circuit,
     and hence, eventually convert it to SPICE.
     """
-    our_heater = gf.components.straight_heater_metal()
+    our_heater = gf.components.straight_heater_metal_simple()
     our_heater.show()
     our_heater_netlist = our_heater.get_netlist(
         exclude_port_types="optical",
-        # allow_multiple=True,
+        allow_multiple=True,
     )
     # print(our_heater_netlist)
-    print(sax.get_required_circuit_models(our_heater_netlist))
-    print(our_heater_netlist["instances"].keys())
-    print(our_heater_netlist["connections"].keys())
+    # print(sax.get_required_circuit_models(our_heater_netlist))
+    # print(our_heater_netlist["instances"].keys())
+    # print(our_heater_netlist["ports"])
+    # print("connections out")
+    # print(our_heater_netlist["connections"])
+    assert sax.get_required_circuit_models(our_heater_netlist) == [
+        "straight",
+        "taper",
+        "via_stack",
+    ]
 
 
 def test_netlist_model_extraction():

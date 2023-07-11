@@ -254,6 +254,7 @@ from gdsfactory.components.straight_heater_meander_doped import (
 )
 from gdsfactory.components.straight_heater_metal import (
     straight_heater_metal,
+    straight_heater_metal_simple,
     straight_heater_metal_90_90,
     straight_heater_metal_undercut,
     straight_heater_metal_undercut_90_90,
@@ -565,6 +566,7 @@ __all__ = [
     "straight_heater_doped_rib",
     "straight_heater_doped_strip",
     "straight_heater_metal",
+    "straight_heater_metal_simple",
     "straight_heater_metal_90_90",
     "straight_heater_metal_undercut",
     "straight_heater_metal_undercut_90_90",
