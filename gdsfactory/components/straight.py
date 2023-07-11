@@ -35,7 +35,6 @@ def straight(
     c = Component()
     path = p.extrude(x)
     ref = c << path
-    print(ref.ports)
     c.add_ports(ref.ports)
     c.info["length"] = length
     c.info["width"] = x.width

@@ -192,6 +192,7 @@ def add_pin_rectangle_inside(
     pbotin = p.center + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
+    print(layer)
     if layer_label:
         component.add_label(
             text=str(p.name),

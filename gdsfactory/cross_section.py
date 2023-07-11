@@ -766,31 +766,47 @@ def l_with_trenches(
     )
 
 
-add_metal1_pins = partial(add_pins_inside1nm, layer="M1_PIN")
-
+metal1_layer_name = "M1"
 metal1 = partial(
     cross_section,
-    layer="M1",
+    layer=metal1_layer_name,
     width=10.0,
     port_names=port_names_electrical,
     port_types=port_types_electrical,
     radius=None,
     min_length=5,
     gap=5,
-    add_pins=add_metal1_pins,  # Create basic electrical connectivity
+    add_pins=partial(
+        add_pins_inside1nm, layer=metal1_layer_name + "_PIN"
+    ),  # Create basic electrical connectivity
 )
+
+metal2_layer_name = "M2"
 metal2 = partial(
     metal1,
-    layer="M2",
+    layer=metal2_layer_name,
+    add_pins=partial(
+        add_pins_inside1nm, layer=metal2_layer_name + "_PIN"
+    ),  # Create basic electrical connectivity
 )
+
+metal3_layer_name = "M3"
 metal3 = partial(
     metal1,
-    layer="M3",
+    layer=metal3_layer_name,
+    add_pins=partial(
+        add_pins_inside1nm, layer=metal3_layer_name + "_PIN"
+    ),  # Create basic electrical connectivity
 )
+
+heater_layer_name = "HEATER"
 heater_metal = partial(
     metal1,
     width=2.5,
     layer="HEATER",
+    add_pins=partial(
+        add_pins_inside1nm, layer=heater_layer_name + "_PIN"
+    ),  # Create basic electrical connectivity
 )
 
 metal3_with_bend = partial(metal1, layer="M3", radius=10)
