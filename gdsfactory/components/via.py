@@ -15,12 +15,19 @@ def via(
     gap: Optional[Tuple[float, float]] = None,
     enclosure: float = 1.0,
     layer: LayerSpec = "VIAC",
+    layers_connect_map: tuple = ("M1", "HEATER"),
     bbox_layers: Optional[Tuple[Tuple[int, int], ...]] = None,
     bbox_offset: float = 0,
+    add_pins: bool = True,
 ) -> Component:
     """Rectangular via.
 
     Defaults to a square via.
+
+     For compatibility with SPICE, standard LVS and RCX tools such as Cadence, we need to place pins in the PIN
+     purpose layer for each drawing layer. Include the `add_pins_from_ports` flag in order to enable this
+     compatibility. In terms of this via, we need to add pins of the corresponding metal layers in the top and bottom
+     layers of each VIA.
 
     Args:
         size: in x, y direction.
@@ -28,8 +35,10 @@ def via(
         gap: edge to edge via gap in x, y.
         enclosure: inclusion of via.
         layer: via layer.
+        layers_connect_map(tuple): Tuple that maps the connectivity to include pins
         bbox_layers: layers for the bounding box.
         bbox_offset: in um.
+        add_pins(bool): Add via contact pins.
 
     .. code::
 
@@ -69,13 +78,16 @@ def via(
     for layer in bbox_layers:
         c.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
 
+    if add_pins:
+        for pin_layer_i in layers_connect_map:
+            c.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=pin_layer_i)
+
     return c
 
 
 viac = partial(via, layer="VIAC")
 via1 = partial(via, layer="VIA1", enclosure=2)
 via2 = partial(via, layer="VIA2")
-
 
 if __name__ == "__main__":
     c = via()

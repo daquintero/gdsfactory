@@ -49,11 +49,11 @@ class GenericLayerMap(BaseModel):
     M2_PIN: Layer = (45, 10)
     M3: Layer = (49, 0)
     M3_PIN: Layer = (49, 10)
-    MTOP: Layer = (49, 0)
-    MTOP_PIN: Layer = (49, 10)
-    VIAC: Layer = (40, 0)
-    VIA1: Layer = (44, 0)
-    VIA2: Layer = (43, 0)
+    MTOP: Layer = (49, 0)  # TODO Is this superseded by MT3?
+    MTOP_PIN: Layer = (49, 10)  # TODO Is this superseded by MT3?
+    VIAC: Layer = (40, 0)  # NPP/PPP to MT1
+    VIA1: Layer = (44, 0)  # MT1 to MT2
+    VIA2: Layer = (43, 0)  # MT1 to MT2/MT3
     PADOPEN: Layer = (46, 0)
 
     DICING: Layer = (100, 0)
@@ -86,3 +86,8 @@ class GenericLayerMap(BaseModel):
 
 
 LAYER = GenericLayerMap()
+
+# TODO where to move this?
+VIAC_CONNECT: tuple = ([LAYER.PPP, LAYER.NPP], [LAYER.M1])
+VIA1_CONNECT: tuple = ([LAYER.M1, LAYER.HEATER], [LAYER.M2])
+VIA2_CONNECT: tuple = ([LAYER.M2], [LAYER.M3])
