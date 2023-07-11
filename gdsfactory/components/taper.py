@@ -11,7 +11,6 @@ from gdsfactory.port import Port
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 
-# WARNING: DEPRECIATED
 @cell
 def taper(
     length: float = 10.0,

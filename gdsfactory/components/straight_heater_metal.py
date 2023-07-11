@@ -132,8 +132,6 @@ def straight_heater_metal_undercut(
             )
             taper1 = c << taper
             taper2 = c << taper
-            # print(taper1.ports.keys())
-            # print(taper2.ports.keys())
             taper1.connect("e1", via_stack_west.ports["e3"])
             taper2.connect("e1", via_stack_east.ports["e1"])
 

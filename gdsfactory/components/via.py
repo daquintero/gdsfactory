@@ -15,7 +15,7 @@ def via(
     gap: Optional[Tuple[float, float]] = None,
     enclosure: float = 1.0,
     layer: LayerSpec = "VIAC",
-    layers_connect_map: tuple = ("M1", "HEATER"),
+    layers_connect_map: tuple = ("M2", "HEATER"),
     bbox_layers: Optional[Tuple[Tuple[int, int], ...]] = None,
     bbox_offset: float = 0,
     add_pins: bool = True,

@@ -18,14 +18,14 @@ def test_extract_electrical_netlist_straight_heater_metal():
     """
     our_heater = gf.components.straight_heater_metal()
     our_heater.show()
-    # our_heater_netlist = our_heater.get_netlist(
-    #     # exclude_port_types="optical"
-    #     allow_multiple=True,
-    # )
+    our_heater_netlist = our_heater.get_netlist(
+        exclude_port_types="optical",
+        # allow_multiple=True,
+    )
     # print(our_heater_netlist)
-    # print(sax.get_required_circuit_models(our_heater_netlist))
-    # print(our_heater_netlist["instances"].keys())
-    # print(our_heater_netlist["connections"].keys())
+    print(sax.get_required_circuit_models(our_heater_netlist))
+    print(our_heater_netlist["instances"].keys())
+    print(our_heater_netlist["connections"].keys())
 
 
 def test_netlist_model_extraction():
