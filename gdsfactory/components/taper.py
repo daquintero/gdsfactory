@@ -11,6 +11,7 @@ from gdsfactory.port import Port
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 
+# WARNING: DEPRECIATED
 @cell
 def taper(
     length: float = 10.0,
@@ -20,11 +21,13 @@ def taper(
     with_bbox: bool = True,
     with_two_ports: bool = True,
     cross_section: CrossSectionSpec = "strip",
+    port_order_name: Optional[tuple] = ("o1", "o2"),
     **kwargs,
 ) -> Component:
     """Linear taper.
 
-    Deprecated, use gf.components.taper_cross_section instead
+    Deprecated for waveguide-transitions, use gf.components.taper_cross_section instead. It is still useful for
+    electrical interconnect where waveguiding is not necessary.
 
     Args:
         length: taper length.
@@ -35,6 +38,7 @@ def taper(
         with_two_ports: includes a second port.
             False for terminator and edge coupler fiber interface.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+        port_order_name(tuple): Ordered tuple of port names. First port is default taper port, second name only if with_two_ports flags used.
         kwargs: cross_section settings.
     """
     x = gf.get_cross_section(cross_section, **kwargs)
@@ -70,7 +74,7 @@ def taper(
             c.add_polygon((xpts, ypts), layer=gf.get_layer(layer))
 
     c.add_port(
-        name="o1",
+        name=port_order_name[0],
         center=(0, 0),
         width=width1,
         orientation=180,
@@ -79,7 +83,7 @@ def taper(
     )
     if with_two_ports:
         c.add_port(
-            name="o2",
+            name=port_order_name[1],
             center=(length, 0),
             width=width2,
             orientation=0,
