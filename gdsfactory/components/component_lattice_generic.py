@@ -192,25 +192,26 @@ def component_lattice_generic(
             if element_i != 0:
                 # Connect the adjacent input waveguide ports to the first element columns
                 # if j == 0:
+                print(element_references[k].ports)
                 route_0 = get_route(
                     interconnection_ports_array[j][i].ports["o2"],
-                    element_references[k].ports["o2"],
+                    element_references[k].ports["in_o2"],
                     radius=5,
                 )
                 route_i = get_route(
                     interconnection_ports_array[j][i + 1].ports["o2"],
-                    element_references[k].ports["o1"],
+                    element_references[k].ports["in_o1"],
                     radius=5,
                 )
                 # Connect output of the component to the component
                 route_0_out = get_route(
                     interconnection_ports_array[j + 1][i].ports["o1"],
-                    element_references[k].ports["o3"],
+                    element_references[k].ports["ou_o1"],
                     radius=5,
                 )
                 route_i_out = get_route(
                     interconnection_ports_array[j + 1][i + 1].ports["o1"],
-                    element_references[k].ports["o4"],
+                    element_references[k].ports["ou_o2"],
                     radius=5,
                 )
                 C.add(route_0.references)

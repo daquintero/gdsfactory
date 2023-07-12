@@ -22,20 +22,19 @@ def test_extract_electrical_netlist_straight_heater_metal():
         exclude_port_types="optical",
         allow_multiple=True,
     )
-    # print(our_heater_netlist)
+    print(our_heater_netlist)
     # print(sax.get_required_circuit_models(our_heater_netlist))
     # print(our_heater_netlist["instances"].keys())
     # print(our_heater_netlist["ports"])
     # print("connections out")
-    # print(our_heater_netlist["connections"])
+    print(our_heater_netlist["connections"])
     assert sax.get_required_circuit_models(our_heater_netlist) == [
         "straight",
         "taper",
         "via_stack",
     ]
 
-
-def test_netlist_model_extraction():
+    # def test_netlist_model_extraction():
     """
     Tests that our PIN placement allows the netlister and sax to extract our electrical component model in a composed circuit.
     """
