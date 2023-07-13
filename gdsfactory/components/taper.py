@@ -21,6 +21,7 @@ def taper(
     with_two_ports: bool = True,
     cross_section: CrossSectionSpec = "strip",
     port_order_name: Optional[tuple] = ("o1", "o2"),
+    port_order_types: Optional[tuple] = ("optical", "optical"),
     **kwargs,
 ) -> Component:
     """Linear taper.
@@ -79,7 +80,7 @@ def taper(
         orientation=180,
         layer=x.layer,
         cross_section=x1,
-        port_type="electrical",
+        port_type=port_order_types[0],
     )
     if with_two_ports:
         c.add_port(
@@ -89,7 +90,7 @@ def taper(
             orientation=0,
             layer=x.layer,
             cross_section=x2,
-            port_type="electrical",
+            port_type=port_order_types[0],
         )
 
     if with_bbox and length:

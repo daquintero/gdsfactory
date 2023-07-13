@@ -135,5 +135,6 @@ def mmi2x2(
 if __name__ == "__main__":
     # c = mmi2x2(gap_mmi=0.252, cross_section="metal1")
     c = mmi2x2(gap_mmi=0.252)
+    print(mmi2x2().ports.items())
     c.show(show_ports=True)
     c.pprint()

@@ -155,7 +155,7 @@ def straight_heater_metal_simple(
     ohms_per_square: Optional[float] = None,
     **kwargs,
 ) -> Component:
-    """Returns a thermal phase shifter.
+    """Returns a thermal phase shifter that has properly fixed electrical connectivity to extract a suitable electrical netlist and models.
 
     dimensions from https://doi.org/10.1364/OE.27.010456
 
@@ -180,9 +180,9 @@ def straight_heater_metal_simple(
     c = Component()
     straight_heater_section = gf.components.straight(
         cross_section=cross_section_waveguide_heater,
-        length=length_straight_input,
+        length=length,
         heater_width=heater_width,
-        **kwargs,
+        # **kwargs # Note cross section is set from the provided, no more settings should be set
     )
 
     c.add_ref(straight_heater_section)
@@ -222,6 +222,7 @@ def straight_heater_metal_simple(
                 length=heater_taper_length,
                 cross_section=x,
                 port_order_name=("e1", "e2"),
+                port_order_types=("electrical", "electrical"),
             )
             taper1 = c << taper
             taper2 = c << taper
@@ -252,13 +253,13 @@ straight_heater_metal_undercut_90_90 = partial(
 )
 
 
-def test_ports():
-    c = straight_heater_metal(length=50.0)
-    assert c.ports["o2"].center[0] == 50.0, c.ports["o2"].center[0]
-    return c
-
-
 if __name__ == "__main__":
+
+    def test_ports():
+        c = straight_heater_metal(length=50.0)
+        assert c.ports["o2"].center[0] == 50.0, c.ports["o2"].center[0]
+        return c
+
     # c = test_ports()
     # c = straight_heater_metal_undercut()
     # print(c.ports['o2'].center[0])
